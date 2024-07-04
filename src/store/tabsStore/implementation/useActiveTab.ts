@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux'
 
-import { TabDispatch, TabActiveState } from '../tabsStore'
+import { AppDispatch, RootState } from '../../store'
 import { setActiveTab, removeActiveTab } from '../tabsStoreSlice'
 
 export function useActiveTab() {
-  const dispatch: TabDispatch = useDispatch()
-  const activeTab = useSelector((state: TabActiveState) => state.tabs.activeTab)
+  const dispatch: AppDispatch = useDispatch()
+  const activeTab = useSelector((state: RootState) => state.tabs.activeTab)
 
   function setTab(tab: string) {
     dispatch(setActiveTab(tab))
