@@ -65,7 +65,10 @@ export function Carousel() {
                 {section.items.map((item: Item) => (
                   <div className="py-4" key={item.id}>
                     <MenuItemCarousel
-                      menuItem={item}
+                      menuItem={{
+                        ...item,
+                        itemId: item.id
+                      }}
                       onClick={() => renderModalItemMenu(item)}
                     />
                   </div>
@@ -84,7 +87,10 @@ export function Carousel() {
                 {section.items.map((item: Item) => (
                   <div className="py-4" key={item.id}>
                     <MenuItemCarousel
-                      menuItem={item}
+                      menuItem={{
+                        ...item,
+                        itemId: item.id
+                      }}
                       onClick={() => renderModalItemMenu(item)}
                     />
                   </div>
@@ -98,8 +104,12 @@ export function Carousel() {
       {productSelected && (
         <Modal open={open} onClose={handleCloseModal}>
           <ModalItemMenu
-            itemMenu={productSelected}
+            itemMenu={{
+              ...productSelected,
+              itemId: productSelected.id
+            }}
             onClick={handleCloseModal}
+            modifiers={productSelected.modifiers}
           />
         </Modal>
       )}
