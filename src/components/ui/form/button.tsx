@@ -19,7 +19,7 @@ export function Button({
     <button
       className={`${
         isFullWidth ? 'w-full' : ''
-      } bg-primary text-white font-bold py-2 px-4 rounded-full h-12`}
+      } bg-primary text-white font-bold py-2 px-4 rounded-full h-12 disabled:opacity-70 disabled:cursor-not-allowed`}
       style={{
         backgroundColor: bgColor
       }}
