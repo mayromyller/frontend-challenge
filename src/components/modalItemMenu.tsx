@@ -18,15 +18,20 @@ export function ModalItemMenu({
   modifiers,
   onClick
 }: ModalItemMenuProps) {
-  const [selectedModifier, setSelectedModifier] = useState<
-    ModifierItem | undefined
-  >({} as ModifierItem)
-  const [quantity, setQuantity] = useState(1)
+  const [selectedModifier, setSelectedModifier] = useState<ModifierItem | null>(
+    null
+  )
+  const [quantity, setQuantity] = useState<number>(1)
   const { handleAddProductToCart } = useCartControl(itemMenu, onClick)
 
   const { name, description, price, images } = itemMenu
 
-  const totalInCart = price * quantity
+  const totalInCart = selectedModifier
+    ? price + selectedModifier.price * quantity
+    : price * quantity
+
+  const isDisabled =
+    (itemMenu.price === 0 && selectedModifier === null) || quantity === 0
 
   function handleSelectedModifier(item: ModifierItem) {
     setSelectedModifier(item)
@@ -34,7 +39,7 @@ export function ModalItemMenu({
 
   function handleAddProduct() {
     handleAddProductToCart(quantity, selectedModifier)
-    setSelectedModifier(undefined)
+    setSelectedModifier(null)
     setQuantity(1)
   }
 
@@ -99,9 +104,9 @@ export function ModalItemMenu({
           onDecrement={() => setQuantity(quantity - 1)}
         />
         <Button
-          title={`Add to cart • ${Number(totalInCart).toFixed(2)}`}
+          title={`Add to Order • ${Number(totalInCart).toFixed(2)}`}
           onClick={handleAddProduct}
-          // disabled={totalInCart <= 0}
+          disabled={isDisabled}
         />
       </div>
     </div>
