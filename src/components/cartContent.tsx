@@ -15,7 +15,7 @@ export function CartContent() {
 
   return (
     <BoxCard>
-      <div className="hidden md:flex w-full flex-col">
+      <div className="hidden min-[900px]:flex w-full flex-col">
         <div className="py-[22px] px-6 bg-[#F8F9FA]">
           <h4 className="font-medium text-2xl">Carrinho</h4>
         </div>
@@ -27,7 +27,7 @@ export function CartContent() {
         ) : (
           <div className="p-6 bg-white">
             {cartSelector.map((item) => (
-              <div key={item.id} className="mb-2">
+              <div key={item.itemId} className="mb-2">
                 <div className="flex flex-row item-center justify-between">
                   <div>
                     <p className="text-base ">{item.name}</p>
@@ -63,6 +63,7 @@ export function CartContent() {
                       modifierItem: item.modifierItem
                     })
                   }
+                  canDecrease={true}
                 />
               </div>
             ))}

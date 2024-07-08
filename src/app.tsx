@@ -19,9 +19,9 @@ export function App() {
         </div>
 
         <div className="max-w-[1024px] lg:mx-auto md:bg-[#F8F9FA] bg-white md:px-[40px] px-[16px] md:py-8 py-5">
-          <div className="flex md:flex-row flex-col gap-6 items-start">
+          <div className="flex min-[900px]:flex-row flex-col gap-6 items-start">
             <BoxCard>
-              <div className="md:max-w-[600px] md:w-[600px] w-full">
+              <div className="min-[900px]:max-w-[600px] min-[900px]:w-[600px] w-full">
                 <Carousel />
               </div>
             </BoxCard>
