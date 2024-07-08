@@ -22,14 +22,14 @@ export function useCartActions() {
 
   function incrementToCart(product: {
     itemId: number | string
-    modifierItem?: ModifierItem
+    modifierItem?: ModifierItem | null
   }) {
     dispatch(incrementedProduct(product))
   }
 
   function decrementToCart(product: {
     itemId: number | string
-    modifierItem?: ModifierItem
+    modifierItem?: ModifierItem | null
   }) {
     dispatch(decrementProduct(product))
   }
@@ -64,7 +64,8 @@ export function useCartActions() {
 
   function totalValuesInCart() {
     return cartSelector.reduce(
-      (acc, item) => acc + item.price * item.quantity,
+      (acc, item) =>
+        acc + item.price + (item.modifierItem?.price ?? 0) * item.quantity,
       0
     )
   }

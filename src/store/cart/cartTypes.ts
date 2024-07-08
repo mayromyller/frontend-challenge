@@ -6,7 +6,7 @@ export interface Product {
   name: string
   price: number
   quantity: number
-  modifierItem?: ModifierItem
+  modifierItem?: ModifierItem | null
 }
 
 export interface CartState {

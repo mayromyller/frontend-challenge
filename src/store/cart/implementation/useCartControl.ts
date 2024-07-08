@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
 import { Item, ModifierItem } from '@/domain'
 
@@ -9,13 +10,12 @@ type ItemProps = Pick<
   'id' | 'name' | 'description' | 'price' | 'images'
 > & {
   modifiers?: ModifierItem
-  itemId: number | string
 }
 
 export function useCartControl(itemMenu: ItemProps, onClick: () => void) {
   const [controlQuantity, setControlQuantity] = useState(false)
 
-  const { id, modifiers, itemId } = itemMenu
+  const { id, modifiers } = itemMenu
 
   const { addToCart, totalItemPerProduct, incrementToCart, decrementToCart } =
     useCartActions()
@@ -23,7 +23,7 @@ export function useCartControl(itemMenu: ItemProps, onClick: () => void) {
 
   function handleAddProductToCart(
     quantity: number,
-    modifierItem?: ModifierItem
+    modifierItem?: ModifierItem | null
   ) {
     if (controlQuantity) {
       setControlQuantity(false)
@@ -31,7 +31,7 @@ export function useCartControl(itemMenu: ItemProps, onClick: () => void) {
     } else {
       addToCart({
         id,
-        itemId,
+        itemId: uuidv4(),
         name: itemMenu.name,
         price: itemMenu.price,
         modifierItem,
@@ -42,11 +42,11 @@ export function useCartControl(itemMenu: ItemProps, onClick: () => void) {
     }
   }
 
-  function handleIncrement() {
+  function handleIncrement(itemId: number | string) {
     if (totalItems < 1) {
       addToCart({
         id,
-        itemId,
+        itemId: uuidv4(),
         name: itemMenu.name,
         price: itemMenu.price,
         modifierItem: modifiers,
@@ -59,7 +59,7 @@ export function useCartControl(itemMenu: ItemProps, onClick: () => void) {
     }
   }
 
-  function handleDecrement() {
+  function handleDecrement(itemId: number | string) {
     if (totalItems < 1) {
       setControlQuantity(false)
     } else {

@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { v4 as uuidv4 } from 'uuid'
 
 import { CartState, Product } from './cartTypes'
 import { ModifierItem } from '@/domain'
@@ -13,30 +12,19 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addProduct: (state, action: PayloadAction<Product>) => {
-      const idProduct = uuidv4()
-
       state.products.push({
-        id: action.payload.id,
-        itemId: idProduct,
-        name: action.payload.name,
-        price: action.payload.price,
-        modifierItem: action.payload.modifierItem,
-        quantity: action.payload.quantity
+        ...action.payload
       })
     },
     incrementedProduct: (
       state,
       action: PayloadAction<{
         itemId: number | string
-        modifierItem?: ModifierItem
+        modifierItem?: ModifierItem | null
       }>
     ) => {
       const product = state.products.find(
-        (product) =>
-          product.itemId === action.payload.itemId &&
-          (!action.payload.modifierItem ||
-            JSON.stringify(product.modifierItem) ===
-              JSON.stringify(action.payload.modifierItem))
+        (product) => product.itemId === action.payload.itemId
       )
       if (product) {
         product.quantity += 1
@@ -46,25 +34,17 @@ const cartSlice = createSlice({
       state,
       action: PayloadAction<{
         itemId: number | string
-        modifierItem?: ModifierItem
+        modifierItem?: ModifierItem | null
       }>
     ) => {
       const product = state.products.find(
-        (product) =>
-          product.itemId === action.payload.itemId &&
-          (!action.payload.modifierItem ||
-            JSON.stringify(product.modifierItem) ===
-              JSON.stringify(action.payload.modifierItem))
+        (product) => product.itemId === action.payload.itemId
       )
       if (product && product.quantity > 1) {
         product.quantity -= 1
       } else {
         state.products = state.products.filter(
-          (product) =>
-            product.itemId !== action.payload.itemId &&
-            (!action.payload.modifierItem ||
-              JSON.stringify(product.modifierItem) !==
-                JSON.stringify(action.payload.modifierItem))
+          (product) => product.itemId !== action.payload.itemId
         )
       }
     },
