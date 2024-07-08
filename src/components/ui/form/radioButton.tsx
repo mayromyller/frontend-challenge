@@ -4,7 +4,7 @@ type RadioButtonProps = {
   value: ModifierItem
   label: string
   name: string
-  valueSelected: ModifierItem | undefined
+  valueSelected: ModifierItem | null
   onChange: (value: string) => void
 }
 
