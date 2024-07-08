@@ -1,6 +1,13 @@
 import { Item } from '@/domain'
+import { useWebSettings } from '@/hooks'
+import { useCartActions } from '@/store'
 
-export type ItemProps = Pick<Item, 'id' | 'name' | 'description' | 'price' | 'images'>
+export type ItemProps = Pick<
+  Item,
+  'id' | 'name' | 'description' | 'price' | 'images'
+> & {
+  itemId: number | string
+}
 
 type MenuItemCarouselProps = {
   menuItem: ItemProps
@@ -8,7 +15,13 @@ type MenuItemCarouselProps = {
 }
 
 export function MenuItemCarousel({ menuItem, onClick }: MenuItemCarouselProps) {
-  const { name, description, price, images } = menuItem
+  const { name, description, price, images, id } = menuItem
+  const { webSettings } = useWebSettings()
+  const color = webSettings.primaryColour
+
+  const { totalItemPerProduct } = useCartActions()
+  const total = totalItemPerProduct(id)
+  const renderTotal = total >= 1 ? total : ''
 
   return (
     <>
@@ -17,7 +30,19 @@ export function MenuItemCarousel({ menuItem, onClick }: MenuItemCarouselProps) {
         onClick={onClick}
       >
         <div>
-          <h3 className="text-base font-medium text-[#121212]">{name}</h3>
+          <div className="flex flex-row items-center gap-2">
+            {total > 0 && (
+              <span
+                className="text-white py-[1px] px-[5px] rounded-[4px] inline-flex items-center justify-center"
+                style={{
+                  backgroundColor: color
+                }}
+              >
+                {renderTotal}
+              </span>
+            )}
+            <h3 className="text-base font-medium text-[#121212]"> {name}</h3>
+          </div>
           <p className="text-base text-[#464646] text-ellipsis line-clamp-2 md:line-clamp-1 font-light">
             {description}
           </p>
@@ -25,7 +50,11 @@ export function MenuItemCarousel({ menuItem, onClick }: MenuItemCarouselProps) {
         </div>
 
         {images?.[0]?.image && (
-          <img className="w-[128px] h-[85px] rounded-[4px]" src={images?.[0]?.image} alt={name} />
+          <img
+            className="w-[128px] h-[85px] rounded-[4px]"
+            src={images?.[0]?.image}
+            alt={name}
+          />
         )}
       </button>
     </>
