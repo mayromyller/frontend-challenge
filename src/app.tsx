@@ -1,5 +1,10 @@
-import { BoxCard, Carousel, CartContent, Header } from '@/components'
-import { SearchInput } from './components/ui/form/searchInput'
+import {
+  BoxCard,
+  Carousel,
+  CartContent,
+  Header,
+  SearchInput
+} from '@/components'
 
 export function App() {
   return (
