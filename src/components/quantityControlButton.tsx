@@ -5,30 +5,34 @@ type QuantityControlButtonProps = {
   onIncrement: () => void
   onDecrement: () => void
   size?: 'small' | 'large'
+  canDecrease?: boolean
 }
 
 export function QuantityControlButton({
   quantity,
   onIncrement,
   onDecrement,
-  size = 'large'
+  size = 'large',
+  canDecrease = false
 }: QuantityControlButtonProps) {
   const { webSettings } = useWebSettings()
   const bgColor = webSettings.primaryColour
+
+  const isDisabled = quantity < (canDecrease ? 1 : 2)
 
   return (
     <div className="flex flex-row items-center">
       <button
         className={`
-          font-bold rounded-full  flex items-center justify-center
-          ${size === 'large' ? 'h-8 w-8' : 'h-5 w-5'}
-          `}
+    font-bold rounded-full flex items-center justify-center
+    ${size === 'large' ? 'h-8 w-8' : 'h-5 w-5'}
+  `}
         style={{
-          backgroundColor: quantity >= 1 ? bgColor : '#DADADA',
-          cursor: quantity < 1 ? 'not-allowed' : 'pointer'
+          backgroundColor: isDisabled ? '#DADADA' : bgColor,
+          cursor: isDisabled ? 'not-allowed' : 'pointer'
         }}
         onClick={onDecrement}
-        disabled={quantity < 1}
+        disabled={isDisabled}
       >
         {size === 'small' ? (
           <svg
@@ -43,7 +47,7 @@ export function QuantityControlButton({
               width="12"
               height="3"
               rx="1.5"
-              fill={quantity >= 1 ? 'white' : '#5F5F5F'}
+              fill={isDisabled ? '#5F5F5F' : 'white'}
             />
           </svg>
         ) : (
@@ -60,11 +64,12 @@ export function QuantityControlButton({
               width="18"
               height="3"
               rx="1.5"
-              fill={quantity >= 1 ? 'white' : '#5F5F5F'}
+              fill={isDisabled ? '#5F5F5F' : 'white'}
             />
           </svg>
         )}
       </button>
+
       <p className="text-lg font-bold px-4">{quantity}</p>
       <button
         className={`
