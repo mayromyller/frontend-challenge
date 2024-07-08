@@ -1,29 +1,43 @@
 import { useState } from 'react'
 
-import { Item } from '@/domain'
+import { Item, ModifierItem } from '@/domain'
 
 import { useCartActions } from './useCartActions'
 
-type ItemProps = Pick<Item, 'id' | 'name' | 'description' | 'price' | 'images'>
+type ItemProps = Pick<
+  Item,
+  'id' | 'name' | 'description' | 'price' | 'images'
+> & {
+  modifiers?: ModifierItem
+  itemId: number | string
+}
 
 export function useCartControl(itemMenu: ItemProps, onClick: () => void) {
   const [controlQuantity, setControlQuantity] = useState(false)
 
-  const { id } = itemMenu
+  const { id, modifiers, itemId } = itemMenu
 
   const { addToCart, totalItemPerProduct, incrementToCart, decrementToCart } =
     useCartActions()
   const totalItems = totalItemPerProduct(id)
 
-  function handleAddProductToCart() {
+  function handleAddProductToCart(
+    quantity: number,
+    modifierItem?: ModifierItem
+  ) {
     if (controlQuantity) {
       setControlQuantity(false)
       onClick()
     } else {
       addToCart({
-        ...itemMenu,
-        quantity: 1
+        id,
+        itemId,
+        name: itemMenu.name,
+        price: itemMenu.price,
+        modifierItem,
+        quantity: quantity ?? 1
       })
+
       onClick()
     }
   }
@@ -31,12 +45,17 @@ export function useCartControl(itemMenu: ItemProps, onClick: () => void) {
   function handleIncrement() {
     if (totalItems < 1) {
       addToCart({
-        ...itemMenu,
+        id,
+        itemId,
+        name: itemMenu.name,
+        price: itemMenu.price,
+        modifierItem: modifiers,
         quantity: 1
       })
+      setControlQuantity(true)
     } else {
       setControlQuantity(true)
-      incrementToCart(id)
+      incrementToCart({ itemId, modifierItem: modifiers })
     }
   }
 
@@ -44,7 +63,7 @@ export function useCartControl(itemMenu: ItemProps, onClick: () => void) {
     if (totalItems < 1) {
       setControlQuantity(false)
     } else {
-      decrementToCart(id)
+      decrementToCart({ itemId, modifierItem: modifiers })
     }
   }
 

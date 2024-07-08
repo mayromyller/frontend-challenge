@@ -10,6 +10,7 @@ import {
   decrementProduct,
   removeProduct
 } from '../cartSlice'
+import { ModifierItem } from '@/domain'
 
 export function useCartActions() {
   const dispatch: AppDispatch = useDispatch()
@@ -19,11 +20,17 @@ export function useCartActions() {
     dispatch(addProduct(product))
   }
 
-  function incrementToCart(product: number) {
+  function incrementToCart(product: {
+    itemId: number | string
+    modifierItem?: ModifierItem
+  }) {
     dispatch(incrementedProduct(product))
   }
 
-  function decrementToCart(product: number) {
+  function decrementToCart(product: {
+    itemId: number | string
+    modifierItem?: ModifierItem
+  }) {
     dispatch(decrementProduct(product))
   }
 
@@ -31,7 +38,21 @@ export function useCartActions() {
     dispatch(removeProduct(product))
   }
 
-  function totalItemPerProduct(productId: number) {
+  function totalItemPerProduct(productId: number | string) {
+    const product = cartSelector.find((item) => item.id === productId)
+
+    if (product) {
+      const total = cartSelector.reduce(
+        (acc, item) => (item.id === productId ? acc + item.quantity : acc),
+        0
+      )
+      return total
+    }
+
+    return 0
+  }
+
+  function totalItemPerProductInCart(productId: number | string) {
     const product = cartSelector.find((item) => item.id === productId)
 
     if (product) {
@@ -55,6 +76,7 @@ export function useCartActions() {
     removeFromCart,
     cartSelector,
     totalItemPerProduct,
+    totalItemPerProductInCart,
     totalValuesInCart
   }
 }
