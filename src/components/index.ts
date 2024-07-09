@@ -6,3 +6,5 @@ export * from './carousel'
 export * from './ui/layout/boxCard'
 export * from './ui/surfaces/accordion'
 export * from './cartContent'
+
+export * from './app/showCartButton'
