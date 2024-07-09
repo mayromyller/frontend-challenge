@@ -62,12 +62,19 @@ export function useCartActions() {
     return 0
   }
 
-  function totalValuesInCart() {
-    return cartSelector.reduce(
+  function totalValuesInCart(): number {
+    const result = cartSelector.reduce(
       (acc, item) =>
-        acc + item.price + (item.modifierItem?.price ?? 0) * item.quantity,
+        acc + (item.price + (item.modifierItem?.price ?? 0)) * item.quantity,
       0
     )
+
+    return Number(result.toFixed(2))
+  }
+
+  function totalInCart(): number {
+    const result = cartSelector.reduce((acc, item) => acc + item.quantity, 0)
+    return Number(result.toFixed(2))
   }
 
   return {
@@ -78,6 +85,7 @@ export function useCartActions() {
     cartSelector,
     totalItemPerProduct,
     totalItemPerProductInCart,
-    totalValuesInCart
+    totalValuesInCart,
+    totalInCart
   }
 }
