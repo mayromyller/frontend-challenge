@@ -8,3 +8,4 @@ export * from './ui/surfaces/accordion'
 export * from './cartContent'
 
 export * from './app/showCartButton'
+export * from './ui/skeleton'
