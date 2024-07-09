@@ -4,7 +4,7 @@ import { MenuIcon } from './icons/menuIcon'
 export function Header() {
   const { webSettings } = useWebSettings()
 
-  const bgColor = webSettings.navBackgroundColour ?? '#111'
+  const bgColor = webSettings.navBackgroundColour
   const textContrast = webSettings.backgroundColour ?? 'white'
 
   return (
