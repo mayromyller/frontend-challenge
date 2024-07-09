@@ -11,6 +11,7 @@ import {
   removeProduct
 } from '../cartSlice'
 import { ModifierItem } from '@/domain'
+import { currencyFormat } from '@/utils'
 
 export function useCartActions() {
   const dispatch: AppDispatch = useDispatch()
@@ -62,19 +63,19 @@ export function useCartActions() {
     return 0
   }
 
-  function totalValuesInCart(): number {
+  function totalValuesInCart(): string {
     const result = cartSelector.reduce(
       (acc, item) =>
         acc + (item.price + (item.modifierItem?.price ?? 0)) * item.quantity,
       0
     )
 
-    return Number(result.toFixed(2))
+    return currencyFormat(result)
   }
 
-  function totalInCart(): number {
+  function totalInCart(): string {
     const result = cartSelector.reduce((acc, item) => acc + item.quantity, 0)
-    return Number(result.toFixed(2))
+    return currencyFormat(result)
   }
 
   return {
