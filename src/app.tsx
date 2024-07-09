@@ -1,19 +1,36 @@
+import { useState } from 'react'
+
 import {
   BoxCard,
   Carousel,
   CartContent,
   Header,
-  SearchInput
+  SearchInput,
+  ShowCartButton
 } from '@/components'
 
+import { useWebSettings } from '@/hooks'
+
 export function App() {
+  const [isCartVisible, setIsCartVisible] = useState(false)
+
+  const { webSettings } = useWebSettings()
+  const primaryColor = webSettings.primaryColour
+
+  function handleShowCart() {
+    setIsCartVisible(true)
+  }
+  function handleHideCart() {
+    setIsCartVisible(false)
+  }
+
   return (
     <>
       <Header />
 
       <div className="h-[3px] w-full bg-white" />
 
-      <main className="w-full bg-white md:bg-[#EEEEEE] min-h-screen pb-[35px]">
+      <main className="w-full bg-white md:bg-[#EEEEEE] min-h-[calc(100dvh)] pb-[80px] relative">
         <div className="max-w-[1024px] mx-auto py-[6px] px-[16px] lg:px-0">
           <SearchInput />
         </div>
@@ -26,9 +43,22 @@ export function App() {
               </div>
             </BoxCard>
 
-            <CartContent />
+            <CartContent visibility={isCartVisible} onClick={handleHideCart} />
           </div>
         </div>
+
+        <div className="min-[900px]:hidden w-full flex justify-center items-center p-6 border-t-[1px] border-b-[1px] border-solid border-[#EEEEEE] bg-[#F8F9FA]">
+          <a
+            className="text-base font-bold underline cursor-pointer"
+            style={{
+              color: primaryColor
+            }}
+          >
+            View allergy information
+          </a>
+        </div>
+
+        <ShowCartButton onClick={handleShowCart} />
       </main>
     </>
   )
