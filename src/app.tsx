@@ -17,6 +17,7 @@ import { useGetMenu } from '@/domain'
 
 export function App() {
   const [isCartVisible, setIsCartVisible] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
 
   const { webSettings } = useWebSettings()
   const primaryColor = webSettings.primaryColour
@@ -30,6 +31,10 @@ export function App() {
     setIsCartVisible(false)
   }
 
+  function handleSearch(term: string) {
+    setSearchTerm(term)
+  }
+
   return (
     <>
       <Header />
@@ -38,7 +43,7 @@ export function App() {
 
       <main className="w-full bg-white md:bg-[#EEEEEE] min-h-[calc(100dvh)] pb-[80px] relative">
         <div className="max-w-[1024px] mx-auto py-[6px] px-[16px] lg:px-0">
-          <SearchInput />
+          <SearchInput onSearch={handleSearch} />
         </div>
 
         <div className="max-w-[1024px] lg:mx-auto md:bg-[#F8F9FA] bg-white md:px-[40px] px-[16px] md:py-8 py-5">
@@ -51,7 +56,7 @@ export function App() {
                     <ItemMenuCarrouselSkeleton />
                   </>
                 ) : (
-                  <Carousel data={data} />
+                  <Carousel data={data} searchTerm={searchTerm} />
                 )}
               </div>
             </BoxCard>
