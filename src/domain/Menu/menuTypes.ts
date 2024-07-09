@@ -1,3 +1,21 @@
+export interface MenuApi {
+  id: number
+  name: string
+  type: string
+  collapse: number
+  sections: Section[]
+}
+
+export interface Section {
+  id: number
+  name: string
+  description: string | null
+  position: number
+  visible?: number
+  images: Image[]
+  items: Item[]
+}
+
 export interface Image {
   id: number
   image: string
