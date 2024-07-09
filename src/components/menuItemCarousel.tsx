@@ -1,6 +1,7 @@
 import { Item } from '@/domain'
 import { useWebSettings } from '@/hooks'
 import { useCartActions } from '@/store'
+import { currencyFormat } from '@/utils'
 
 export type ItemProps = Pick<
   Item,
@@ -46,7 +47,9 @@ export function MenuItemCarousel({ menuItem, onClick }: MenuItemCarouselProps) {
           <p className="text-base text-[#464646] text-ellipsis line-clamp-2 md:line-clamp-1 font-light">
             {description}
           </p>
-          <p className="text-base font-medium mt-1 text-[#464646]">{price}</p>
+          <p className="text-base font-medium mt-1 text-[#464646]">
+            {currencyFormat(price)}
+          </p>
         </div>
 
         {images?.[0]?.image && (

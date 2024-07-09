@@ -7,6 +7,7 @@ import { QuantityControlButton } from './quantityControlButton'
 import { ShowCartButton } from './app/showCartButton'
 import { BoxCard } from './ui/layout/boxCard'
 import { XIcon } from './icons/xIcon'
+import { currencyFormat } from '@/utils'
 
 type CartContentProps = {
   visibility: boolean
@@ -87,11 +88,11 @@ export function CartContent({ visibility, onClick }: CartContentProps) {
                     <p className="text-base font-medium ">
                       {item.modifierItem &&
                       Object.keys(item.modifierItem).length > 0
-                        ? Number(
+                        ? currencyFormat(
                             item.price * totalItemPerProductInCart(item.id) +
                               item.modifierItem?.price * item.quantity
-                          ).toFixed(2)
-                        : Number(item.price * item.quantity).toFixed(2)}
+                          )
+                        : currencyFormat(item.price * item.quantity)}
                     </p>
                   </div>
 
