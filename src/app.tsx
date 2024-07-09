@@ -5,17 +5,23 @@ import {
   Carousel,
   CartContent,
   Header,
+  ItemCarrouselSkeleton,
   SearchInput,
-  ShowCartButton
+  ShowCartButton,
+  ItemMenuCarrouselSkeleton,
+  CartSkeleton
 } from '@/components'
 
 import { useWebSettings } from '@/hooks'
+import { useGetMenu } from '@/domain'
 
 export function App() {
   const [isCartVisible, setIsCartVisible] = useState(false)
 
   const { webSettings } = useWebSettings()
   const primaryColor = webSettings.primaryColour
+
+  const { data, isLoading } = useGetMenu()
 
   function handleShowCart() {
     setIsCartVisible(true)
@@ -39,11 +45,27 @@ export function App() {
           <div className="flex min-[900px]:flex-row flex-col gap-6 items-start">
             <BoxCard>
               <div className="min-[900px]:max-w-[600px] min-[900px]:w-[600px] w-full">
-                <Carousel />
+                {isLoading ? (
+                  <>
+                    <ItemCarrouselSkeleton />
+                    <ItemMenuCarrouselSkeleton />
+                  </>
+                ) : (
+                  <Carousel data={data} />
+                )}
               </div>
             </BoxCard>
 
-            <CartContent visibility={isCartVisible} onClick={handleHideCart} />
+            {isLoading ? (
+              <BoxCard>
+                <CartSkeleton />
+              </BoxCard>
+            ) : (
+              <CartContent
+                visibility={isCartVisible}
+                onClick={handleHideCart}
+              />
+            )}
           </div>
         </div>
 
