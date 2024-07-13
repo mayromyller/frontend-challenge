@@ -6,6 +6,7 @@ import { Button } from './ui/form/button'
 import { Modifier, ModifierItem } from '@/domain'
 import { RadioButton } from './ui/form/radioButton'
 import { useState } from 'react'
+import { currencyFormat } from '@/utils'
 
 type ModalItemMenuProps = {
   itemMenu: ItemProps
@@ -116,7 +117,7 @@ export function ModalItemMenu({
             onDecrement={() => setQuantity(quantity - 1)}
           />
           <Button
-            title={`Add to Order • ${Number(totalInCart).toFixed(2)}`}
+            title={`Add to Order • ${currencyFormat(totalInCart)}`}
             onClick={handleAddProduct}
             disabled={isDisabled}
           />

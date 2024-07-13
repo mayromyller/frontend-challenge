@@ -9,9 +9,11 @@ type ShowCartButtonProps = {
 export function ShowCartButton({ label = null, onClick }: ShowCartButtonProps) {
   const { totalInCart } = useCartActions()
 
-  const renderTotal = totalInCart() >= 1 ? totalInCart() : 0
+  const result = totalInCart()
+
+  const renderTotal = result >= 1 ? result : 0
   const phraseToButton =
-    totalInCart() <= 1
+    result <= 1
       ? `Your basket • ${renderTotal} item`
       : `Your basket • ${renderTotal} items`
 
