@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { getMenu } from '../menuApi'
 import { MenuApi } from '../menuTypes'
+import { AxiosError } from 'axios'
+
+import fakeData from '../../../components/data'
 
 export function useGetMenu() {
   const [isLoading, setIsLoading] = useState(true)
@@ -13,7 +16,9 @@ export function useGetMenu() {
 
       setData(response.data)
     } catch (error) {
-      console.error(error)
+      if (error instanceof AxiosError) {
+        setData(fakeData as MenuApi)
+      }
     } finally {
       setIsLoading(false)
     }

@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from 'react'
 
 import { VenueApi, WebSettingsType, getVenue } from '@/domain'
+import { AxiosError } from 'axios'
 
 type WebSettingsProps = Pick<
   WebSettingsType,
@@ -44,7 +45,16 @@ export function WebSettingsProvider({ children }: React.PropsWithChildren) {
         locale: data.locale
       })
     } catch (error) {
-      console.log(error)
+      if (error instanceof AxiosError) {
+        setWebSettings({
+          bannerImage:
+            'https://preodemo.gumlet.io/usr/venue/7602/web/646fbf3abf9d0.png',
+          backgroundColour: '#ffffff',
+          primaryColour: '#4f372f',
+          primaryColourHover: '#4f372f',
+          navBackgroundColour: '#4f372f'
+        })
+      }
     } finally {
       setIsLoading(false)
     }
