@@ -35,7 +35,7 @@ export function useCartActions() {
     dispatch(decrementProduct(product))
   }
 
-  function removeFromCart(product: number) {
+  function removeFromCart(product: { itemId: number | string }) {
     dispatch(removeProduct(product))
   }
 
@@ -73,9 +73,10 @@ export function useCartActions() {
     return currencyFormat(result)
   }
 
-  function totalInCart(): string {
-    const result = cartSelector.reduce((acc, item) => acc + item.quantity, 0)
-    return currencyFormat(result)
+  function totalInCart(): number {
+    const total = cartSelector.reduce((acc, item) => acc + item.quantity, 0)
+
+    return total
   }
 
   return {
