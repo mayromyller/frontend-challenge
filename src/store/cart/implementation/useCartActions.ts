@@ -4,12 +4,7 @@ import { AppDispatch, RootState } from '../../store'
 
 import { Product } from '../cartTypes'
 
-import {
-  addProduct,
-  incrementedProduct,
-  decrementProduct,
-  removeProduct
-} from '../cartSlice'
+import { addProduct, incrementedProduct, decrementProduct } from '../cartSlice'
 import { ModifierItem } from '@/domain'
 import { currencyFormat } from '@/utils'
 
@@ -33,10 +28,6 @@ export function useCartActions() {
     modifierItem?: ModifierItem | null
   }) {
     dispatch(decrementProduct(product))
-  }
-
-  function removeFromCart(product: { itemId: number | string }) {
-    dispatch(removeProduct(product))
   }
 
   function totalItemPerProduct(productId: number | string) {
@@ -83,7 +74,7 @@ export function useCartActions() {
     addToCart,
     incrementToCart,
     decrementToCart,
-    removeFromCart,
+
     cartSelector,
     totalItemPerProduct,
     totalItemPerProductInCart,
