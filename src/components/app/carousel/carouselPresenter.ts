@@ -22,6 +22,7 @@ export function useCarouselPresenter({ data, searchTerm }: CarouselPresenter) {
   }
 
   function handleCloseModal() {
+    setProductSelected(null)
     setOpen(false)
     document.body.classList.remove('modal-visible')
   }
