@@ -12,5 +12,14 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/__tests__/setup.ts'
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://cdn-dev.preoday.com/challenge',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
   }
 })

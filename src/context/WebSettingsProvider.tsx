@@ -47,14 +47,14 @@ export function WebSettingsProvider({ children }: React.PropsWithChildren) {
     } catch (error) {
       if (error instanceof AxiosError) {
         /*Adding code so that if an API call fails with CORS problems, a mock of the data is added */
-        setWebSettings({
-          bannerImage:
-            'https://preodemo.gumlet.io/usr/venue/7602/web/646fbf3abf9d0.png',
-          backgroundColour: '#ffffff',
-          primaryColour: '#4f372f',
-          primaryColourHover: '#4f372f',
-          navBackgroundColour: '#4f372f'
-        })
+        // setWebSettings({
+        //   bannerImage:
+        //     'https://preodemo.gumlet.io/usr/venue/7602/web/646fbf3abf9d0.png',
+        //   backgroundColour: '#ffffff',
+        //   primaryColour: '#4f372f',
+        //   primaryColourHover: '#4f372f',
+        //   navBackgroundColour: '#4f372f'
+        // })
       }
     } finally {
       setIsLoading(false)
